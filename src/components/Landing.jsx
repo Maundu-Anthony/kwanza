@@ -39,25 +39,7 @@ export default function Landing() {
     alert('Quick filter (demo): ' + activity + ' ' + culture);
   }
 
-  function toggleFavorite(btn) {
-    console.log('Toggled favorite', btn);
-    alert('Favorited (demo)');
-  }
-
-  function shareExperience(id) {
-    console.log('Share', id);
-    alert('Share (demo): ' + id);
-  }
-
-  function openBookingModal(id) {
-    console.log('Open booking modal for', id);
-    alert('Open booking modal (demo): ' + id);
-  }
-
-  function openQuickView(id) {
-    console.log('Open quick view for', id);
-    alert('Quick view (demo): ' + id);
-  }
+  // Removed unused helper functions to clear ESLint warnings
 
   return (
     <div className="font-sans">
@@ -66,7 +48,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="text-2xl font-bold text-red-600">🏠 Kwanza Homestays</div>
+              <div className="text-2xl font-bold text-red-600">🏠 Kwanza</div>
             </div>
 
             <div className="hidden md:block">
@@ -221,7 +203,7 @@ export default function Landing() {
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Experience Kenyan Culture</h2>
               <h3 className="text-2xl text-red-600 mb-6">Embrace authentic cultural journeys</h3>
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Kwanza Homestays connects you with local hosts across Kenya for immersive cultural experiences. Our platform empowers Kenyan households, particularly women, to become cultural entrepreneurs, ensuring that tourism revenue benefits local communities directly.
+                Kwanza connects you with local hosts across Kenya for immersive cultural experiences. Our platform empowers Kenyan households, particularly women, to become cultural entrepreneurs, ensuring that tourism revenue benefits local communities directly.
               </p>
               <p className="text-lg text-gray-700 mb-8 leading-relaxed">
                 Engage in authentic culinary sessions, artisan crafts, and language exchanges while supporting sustainable travel and preserving cultural heritage. Join us in redefining travel as a meaningful cultural exchange.
