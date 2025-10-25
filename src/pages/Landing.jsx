@@ -41,6 +41,34 @@ export default function Landing() {
 
   // Removed unused helper functions to clear ESLint warnings
 
+  // Import all images from src/images (webpack require.context)
+  function importAll(r) {
+    return r.keys().map(r);
+  }
+
+  const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/)).slice(0, 10);
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
+
+  function openLightbox(idx) {
+    setLightboxIndex(idx);
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    setLightboxIndex(-1);
+    document.body.style.overflow = '';
+  }
+
+  React.useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight' && lightboxIndex > -1) setLightboxIndex((i) => Math.min(images.length - 1, i + 1));
+      if (e.key === 'ArrowLeft' && lightboxIndex > -1) setLightboxIndex((i) => Math.max(0, i - 1));
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightboxIndex, images.length]);
+
   return (
     <div className="font-sans">
       {/* Navigation */}
@@ -219,6 +247,34 @@ export default function Landing() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">Gallery</h2>
+            <p className="text-lg text-gray-600">A selection of moments from our hosts and experiences</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {images.map((src, idx) => (
+              <div key={idx} className="w-full h-40 md:h-48 overflow-hidden rounded-lg bg-gray-100 cursor-pointer" onClick={() => openLightbox(idx)}>
+                <img src={src} alt={`gallery-${idx + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition duration-300" />
+              </div>
+            ))}
+          </div>
+
+          {/* Lightbox modal */}
+          {lightboxIndex > -1 && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4" onClick={closeLightbox} role="dialog" aria-modal="true">
+              <button aria-label="Close" className="absolute top-6 right-6 text-white text-2xl font-bold" onClick={closeLightbox}>×</button>
+              <div className="max-w-[90%] max-h-[90%]">
+                <img src={images[lightboxIndex]} alt={`gallery-large-${lightboxIndex + 1}`} className="w-full h-full object-contain rounded-md shadow-2xl" />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
