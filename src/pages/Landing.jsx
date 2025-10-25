@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 export default function Landing() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -48,18 +48,28 @@ export default function Landing() {
 
   const images = importAll(require.context('../images', false, /\.(png|jpe?g|svg)$/)).slice(0, 10);
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const modalRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const prevFocusRef = useRef(null);
 
   function openLightbox(idx) {
+    prevFocusRef.current = document.activeElement;
     setLightboxIndex(idx);
-    document.body.style.overflow = 'hidden';
+    // body scroll lock will be applied when modal opens (in effect)
   }
 
   function closeLightbox() {
     setLightboxIndex(-1);
     document.body.style.overflow = '';
+    // restore focus to previously focused element
+    try {
+      if (prevFocusRef.current && typeof prevFocusRef.current.focus === 'function') prevFocusRef.current.focus();
+    } catch (e) {
+      // ignore
+    }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowRight' && lightboxIndex > -1) setLightboxIndex((i) => Math.min(images.length - 1, i + 1));
@@ -68,6 +78,46 @@ export default function Landing() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [lightboxIndex, images.length]);
+
+  // Focus management & focus trap for modal
+  useEffect(() => {
+    if (lightboxIndex > -1) {
+      // lock scroll
+      document.body.style.overflow = 'hidden';
+      // focus close button after render
+      setTimeout(() => {
+        try {
+          if (closeButtonRef.current) closeButtonRef.current.focus();
+        } catch (e) {}
+      }, 0);
+
+      function trapTab(e) {
+        if (e.key !== 'Tab') return;
+        const modal = modalRef.current;
+        if (!modal) return;
+        const focusable = modal.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        if (!focusable || focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+
+      window.addEventListener('keydown', trapTab);
+      return () => window.removeEventListener('keydown', trapTab);
+    }
+    // when closing, nothing to do here (closeLightbox restores focus)
+    return undefined;
+  }, [lightboxIndex]);
 
   return (
     <div className="font-sans">
@@ -261,16 +311,16 @@ export default function Landing() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {images.map((src, idx) => (
               <div key={idx} className="w-full h-40 md:h-48 overflow-hidden rounded-lg bg-gray-100 cursor-pointer" onClick={() => openLightbox(idx)}>
-                <img src={src} alt={`gallery-${idx + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition duration-300" />
+                <img loading="lazy" src={src} alt={`gallery-${idx + 1}`} className="w-full h-full object-cover transform hover:scale-105 transition duration-300" />
               </div>
             ))}
           </div>
 
           {/* Lightbox modal */}
           {lightboxIndex > -1 && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4" onClick={closeLightbox} role="dialog" aria-modal="true">
-              <button aria-label="Close" className="absolute top-6 right-6 text-white text-2xl font-bold" onClick={closeLightbox}>×</button>
-              <div className="max-w-[90%] max-h-[90%]">
+            <div ref={modalRef} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4" onClick={closeLightbox} role="dialog" aria-modal="true" aria-label={`Image ${lightboxIndex + 1} of ${images.length}`}>
+              <button ref={closeButtonRef} aria-label="Close" className="absolute top-6 right-6 text-white text-2xl font-bold" onClick={closeLightbox}>×</button>
+              <div className="max-w-[90%] max-h-[90%]" onClick={(e) => e.stopPropagation()}>
                 <img src={images[lightboxIndex]} alt={`gallery-large-${lightboxIndex + 1}`} className="w-full h-full object-contain rounded-md shadow-2xl" />
               </div>
             </div>
