@@ -172,7 +172,7 @@ export default function Landing() {
                 <a href="#gallery" className="nav-link text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium">Gallery</a>
                 <a href="#how-it-works" className="nav-link text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium">How It Works</a>
                 <a href="#blog" className="nav-link text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium">Blog</a>
-                <a href="#contact" className="nav-link text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium">Contact</a>
+                <a href="#contact" className="nav-link text-gray-700 hover:text-red-600 px-3 py-2 text-sm font-medium">Contact Us</a>
               </div>
             </div>
 
@@ -195,7 +195,7 @@ export default function Landing() {
             <a href="#gallery" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600" onClick={() => setMobileOpen(false)}>Gallery</a>
             <a href="#how-it-works" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600" onClick={() => setMobileOpen(false)}>How It Works</a>
             <a href="#blog" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600" onClick={() => setMobileOpen(false)}>Blog</a>
-            <a href="#contact" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600" onClick={() => setMobileOpen(false)}>Contact</a>
+            <a href="#contact" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-red-600" onClick={() => setMobileOpen(false)}>Contact Us</a>
           </div>
         </div>
       </nav>
@@ -547,6 +547,32 @@ export default function Landing() {
       </section>
 
       {/* Services section and the rest of the original markup would follow here; truncated to match provided content */}
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="mb-8">
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">Contact Us</h2>
+            <p className="text-lg text-gray-600">Reach out via email, phone, or follow us on social media</p>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-md p-8 space-y-6">
+            <div className="flex flex-col md:flex-row md:justify-center md:items-center gap-6">
+              <a href="mailto:kwanzabiashara1@gmail.com" className="inline-flex items-center gap-3 px-6 py-3 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-700 font-medium">✉️ Email: kwanzabiashara1@gmail.com</a>
+              <a href="tel:+254783094861" className="inline-flex items-center gap-3 px-6 py-3 bg-green-50 hover:bg-green-100 rounded-lg text-green-700 font-medium">📞 Call: +254 783 094 861</a>
+            </div>
+
+            <div className="pt-4 border-t border-gray-100">
+              <p className="text-sm text-gray-600 mb-3">Follow us</p>
+              <div className="flex justify-center gap-4">
+                <a href="https://www.tiktok.com/@kwanzaarrived" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-black text-white rounded-lg">TikTok</a>
+                <a href="https://www.instagram.com/kwanzakwanza" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-pink-500 text-white rounded-lg">Instagram</a>
+                <a href="https://www.facebook.com/kwanzasafaris" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-blue-600 text-white rounded-lg">Facebook</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
