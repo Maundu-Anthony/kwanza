@@ -565,9 +565,29 @@ export default function Landing() {
             <div className="pt-4 border-t border-gray-100">
               <p className="text-sm text-gray-600 mb-3">Follow us</p>
               <div className="flex justify-center gap-4">
-                <a href="https://www.tiktok.com/@kwanzaarrived" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-black text-white rounded-lg">TikTok</a>
-                <a href="https://www.instagram.com/kwanzakwanza" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-pink-500 text-white rounded-lg">Instagram</a>
-                <a href="https://www.facebook.com/kwanzasafaris" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-blue-600 text-white rounded-lg">Facebook</a>
+                <a href="https://www.tiktok.com/@kwanzaarrived" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok" className="p-3 bg-black text-white rounded-lg flex items-center justify-center hover:scale-105 transition transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" aria-hidden="true">
+                    <path d="M17.5 3c-.2 0-.4 0-.6.1-1 .2-1.8.8-2.3 1.6V11c0 1.9-1.5 3.4-3.4 3.4-1.9 0-3.4-1.5-3.4-3.4S9.6 7 11.5 7c.3 0 .6 0 .9.1V5.2c-.2-.1-.5-.1-.8-.1A5.9 5.9 0 0 0 7.7 6.4 5.8 5.8 0 0 0 6 9.3 5.9 5.9 0 0 0 11.9 15 5.9 5.9 0 0 0 17.8 9.1V6.5h-2V4.8c.8-.5 1.7-.8 2.7-.9V3z" />
+                  </svg>
+                </a>
+
+                <a href="https://www.instagram.com/kwanzakwanza" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram" className="p-3 bg-gradient-to-tr from-pink-400 via-pink-500 to-yellow-400 text-white rounded-lg flex items-center justify-center hover:scale-105 transition transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" aria-hidden="true">
+                    <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.5A4.5 4.5 0 1 0 16.5 13 4.5 4.5 0 0 0 12 8.5zm5.5-2.1a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z" />
+                  </svg>
+                </a>
+
+                <a href="https://www.facebook.com/kwanzasafaris" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook" className="p-3 bg-blue-600 text-white rounded-lg flex items-center justify-center hover:scale-105 transition transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" aria-hidden="true">
+                    <path d="M22 12a10 10 0 1 0-11.5 9.9v-7h-2.2V12h2.2V9.8c0-2.2 1.3-3.5 3.3-3.5.96 0 1.96.17 1.96.17v2.1h-1.08c-1.06 0-1.39.66-1.39 1.34V12h2.36l-.38 2.9h-1.98v7A10 10 0 0 0 22 12z" />
+                  </svg>
+                </a>
+
+                <a href="https://wa.me/254783094861" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp" className="p-3 bg-green-500 text-white rounded-lg flex items-center justify-center hover:scale-105 transition transform">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" aria-hidden="true">
+                    <path d="M20.52 3.48A11 11 0 1 0 3.48 20.52L2 22l1.5-4.2A11 11 0 0 0 20.52 3.48zM12 5.5a6.5 6.5 0 0 1 6.5 6.5c0 1.2-.3 2.2-.8 3.1L17 17l-1.9-.5a6.4 6.4 0 0 1-3.1.8A6.5 6.5 0 0 1 12 5.5z" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
