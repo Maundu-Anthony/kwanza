@@ -51,6 +51,7 @@ export default function Landing() {
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
   const prevFocusRef = useRef(null);
+  const [imageStyle, setImageStyle] = useState({ transform: 'scale(0.9)', opacity: 0, transition: 'transform 5s ease, opacity 5s ease' });
 
   function openLightbox(idx) {
     prevFocusRef.current = document.activeElement;
@@ -69,6 +70,16 @@ export default function Landing() {
     }
   }
 
+  function showNext(e) {
+    e?.stopPropagation();
+    if (lightboxIndex < images.length - 1) setLightboxIndex((i) => i + 1);
+  }
+
+  function showPrev(e) {
+    e?.stopPropagation();
+    if (lightboxIndex > 0) setLightboxIndex((i) => i - 1);
+  }
+
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') closeLightbox();
@@ -76,7 +87,24 @@ export default function Landing() {
       if (e.key === 'ArrowLeft' && lightboxIndex > -1) setLightboxIndex((i) => Math.max(0, i - 1));
     }
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+
+    // Auto transition every 5 seconds if lightbox is open
+    let interval;
+    if (lightboxIndex > -1) {
+      interval = setInterval(() => {
+        if (lightboxIndex < images.length - 1) {
+          setLightboxIndex(i => i + 1);
+        } else {
+          // Reset to first image when reaching the end
+          setLightboxIndex(0);
+        }
+      }, 3000);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      if (interval) clearInterval(interval);
+    };
   }, [lightboxIndex, images.length]);
 
   // Focus management & focus trap for modal
@@ -90,6 +118,12 @@ export default function Landing() {
           if (closeButtonRef.current) closeButtonRef.current.focus();
         } catch (e) {}
       }, 0);
+
+      // animate the image from slightly scaled down to full size over 5s
+      setImageStyle({ transform: 'scale(0.9)', opacity: 0, transition: 'transform 5s ease, opacity 5s ease' });
+      setTimeout(() => {
+        setImageStyle({ transform: 'scale(1)', opacity: 1, transition: 'transform 5s ease, opacity 5s ease' });
+      }, 20);
 
       function trapTab(e) {
         if (e.key !== 'Tab') return;
@@ -320,8 +354,19 @@ export default function Landing() {
           {lightboxIndex > -1 && (
             <div ref={modalRef} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4" onClick={closeLightbox} role="dialog" aria-modal="true" aria-label={`Image ${lightboxIndex + 1} of ${images.length}`}>
               <button ref={closeButtonRef} aria-label="Close" className="absolute top-6 right-6 text-white text-2xl font-bold" onClick={closeLightbox}>×</button>
+
+              {/* Previous arrow */}
+              <button aria-label="Previous image" onClick={(e) => { e.stopPropagation(); showPrev(e); }} className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-6 focus:outline-none transition-all duration-300 transform hover:scale-110">
+                <span className="text-4xl font-bold">‹</span>
+              </button>
+
+              {/* Next arrow */}
+              <button aria-label="Next image" onClick={(e) => { e.stopPropagation(); showNext(e); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-6 focus:outline-none transition-all duration-300 transform hover:scale-110">
+                <span className="text-4xl font-bold">›</span>
+              </button>
+
               <div className="max-w-[90%] max-h-[90%]" onClick={(e) => e.stopPropagation()}>
-                <img src={images[lightboxIndex]} alt={`gallery-large-${lightboxIndex + 1}`} className="w-full h-full object-contain rounded-md shadow-2xl" />
+                <img src={images[lightboxIndex]} alt={`gallery-large-${lightboxIndex + 1}`} style={imageStyle} className="w-full h-full object-contain rounded-md shadow-2xl" />
               </div>
             </div>
           )}
